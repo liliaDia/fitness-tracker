@@ -8,11 +8,9 @@ import { removeActivityFromRoutine } from "../api/routine_activities";
 import { usersRoutines } from "../api/users";
 import { useNavigate } from "react-router-dom";
 import { getActivities } from "../api/activities";
-import { userInfo } from "../api/users";
 
 const MyRoutines = ({
   token,
-  setUser,
   user,
   count,
   setCount,
@@ -35,17 +33,6 @@ const MyRoutines = ({
       console.error(err);
     }
   };
-  async function getInfo() {
-    try {
-      const userObj = await userInfo(token);
-      setUser(userObj);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  useEffect(() => {
-    getInfo();
-  }, []);
 
   async function getAllActivities() {
     try {
@@ -61,19 +48,20 @@ const MyRoutines = ({
 
   const allUserRoutines = async () => {
     try {
-      const userRoutines = await usersRoutines(token, user.username);
-      setRoutinesByUser(userRoutines);
+      console.log(token, user);
+      if (!token || !user) return;
+      const userRoutines = await usersRoutines(token, user?.username);
+      if (userRoutines) {
+        setRoutinesByUser(userRoutines);
+      }
     } catch (err) {
       console.error(err);
     }
   };
+
   useEffect(() => {
     allUserRoutines();
-  }, []);
-
-  if (routinesByUser === null) {
-    return;
-  }
+  }, [token, user?.username]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -81,6 +69,10 @@ const MyRoutines = ({
     await newRoutineInfo();
     await allUserRoutines();
   };
+
+  if (!routinesByUser) {
+    return;
+  }
 
   return (
     <div className="bg-white p-5 mt-3 mx-10">
@@ -137,7 +129,7 @@ const MyRoutines = ({
             </button>
           </form>
         </div>
-        {routinesByUser.map((routine) => {
+        {routinesByUser?.map((routine) => {
           return (
             <div
               className="sticky w-full px-8 py-12 mx-auto space-y-4 bg-white border rounded-lg shadow-lg mb-5"

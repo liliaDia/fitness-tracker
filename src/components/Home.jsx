@@ -1,20 +1,4 @@
-import { userInfo } from "../api/users";
-import { useEffect } from "react";
-
-const Home = ({ token, user, setUser }) => {
-  async function getInfo() {
-    try {
-      const userObj = await userInfo(token);
-      setUser(userObj);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  useEffect(() => {
-    getInfo();
-  }, []);
-
+const Home = ({ user }) => {
   if (user === null) {
     return;
   }

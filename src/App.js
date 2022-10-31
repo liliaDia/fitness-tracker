@@ -8,6 +8,7 @@ import MyRoutines from "./components/MyRoutines";
 import Home from "./components/Home";
 import CreateActivity from "./components/CreateActivity";
 import CreateRoutines from "./components/CreateRoutines";
+import { userInfo } from "./api/users";
 
 function App() {
   const navigate = useNavigate();
@@ -22,6 +23,19 @@ function App() {
   const [user, setUser] = useState(null);
   const [count, setCount] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  async function getInfo() {
+    try {
+      const userObj = await userInfo(token);
+      setUser(userObj);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  useEffect(() => {
+    getInfo();
+  }, []);
 
   const logout = () => {
     setToken("");
@@ -105,7 +119,6 @@ function App() {
                 <MyRoutines
                   token={token}
                   user={user}
-                  setUser={setUser}
                   count={count}
                   setCount={setCount}
                   duration={duration}
