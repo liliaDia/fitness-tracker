@@ -1,6 +1,6 @@
 import { Route, Routes, Link, useNavigate } from "react-router-dom";
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AccountForm from "./components/AccountForm";
 import Activities from "./components/Activities";
 import Routines from "./components/Routines";
@@ -11,7 +11,14 @@ import CreateRoutines from "./components/CreateRoutines";
 
 function App() {
   const navigate = useNavigate();
-  const [token, setToken] = useState("");
+  //const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    window.localStorage.getItem("token") || ""
+  );
+  useEffect(() => {
+    window.localStorage.setItem("token", token);
+  }, []);
+
   const [user, setUser] = useState(null);
   const [count, setCount] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -98,6 +105,7 @@ function App() {
                 <MyRoutines
                   token={token}
                   user={user}
+                  setUser={setUser}
                   count={count}
                   setCount={setCount}
                   duration={duration}

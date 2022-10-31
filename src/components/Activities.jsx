@@ -21,6 +21,7 @@ const Activities = ({ token }) => {
   return (
     <div className="bg-white p-5 mt-3 mx-10">
       <div className="relative flex flex-col px-10 pt-2 pb-6 font-sans text-gray-700 bg-gray-200 sm:px-6 lg:px-8">
+        <div id="loader"></div>
         <div className="p-2 text-5xl">
           <h1>Fitness Tracker</h1>
           <h3>Activities</h3>

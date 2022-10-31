@@ -48,7 +48,10 @@ const Routines = ({ token }) => {
               <h4>
                 Name:{routine.name} <br></br>Goal:{routine.goal} <br></br>
                 Creator Name:
-                {routine.creatorName} <br></br>activity:
+                <button className="py-2 px-4 rounded bg-green-600  text-white w-25 transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 ">
+                  {routine.creatorName}
+                </button>
+                <br></br>activity:
                 {routine.activities.map((eachActivity) => {
                   return (
                     <div

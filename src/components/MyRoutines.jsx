@@ -8,9 +8,11 @@ import { removeActivityFromRoutine } from "../api/routine_activities";
 import { usersRoutines } from "../api/users";
 import { useNavigate } from "react-router-dom";
 import { getActivities } from "../api/activities";
+import { userInfo } from "../api/users";
 
 const MyRoutines = ({
   token,
+  setUser,
   user,
   count,
   setCount,
@@ -33,6 +35,17 @@ const MyRoutines = ({
       console.error(err);
     }
   };
+  async function getInfo() {
+    try {
+      const userObj = await userInfo(token);
+      setUser(userObj);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  useEffect(() => {
+    getInfo();
+  }, []);
 
   async function getAllActivities() {
     try {
