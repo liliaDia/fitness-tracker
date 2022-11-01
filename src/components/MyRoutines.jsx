@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   newRoutine,
   deleteRoutine,
@@ -46,7 +46,7 @@ const MyRoutines = ({
     getAllActivities();
   }, []);
 
-  const allUserRoutines = async () => {
+  const allUserRoutines = useCallback(async () => {
     try {
       console.log(token, user);
       if (!token || !user) return;
@@ -57,15 +57,14 @@ const MyRoutines = ({
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [token, user]);
 
   useEffect(() => {
     allUserRoutines();
-  }, [token, user?.username]);
+  }, [allUserRoutines]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    //id ? editRoutine() :
     await newRoutineInfo();
     await allUserRoutines();
   };

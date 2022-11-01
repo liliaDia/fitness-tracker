@@ -12,30 +12,29 @@ import { userInfo } from "./api/users";
 
 function App() {
   const navigate = useNavigate();
-  //const [token, setToken] = useState("");
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || ""
   );
   useEffect(() => {
     window.localStorage.setItem("token", token);
-  }, []);
+  }, [token]);
 
   const [user, setUser] = useState(null);
   const [count, setCount] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  async function getInfo() {
-    try {
-      const userObj = await userInfo(token);
-      setUser(userObj);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   useEffect(() => {
+    async function getInfo() {
+      try {
+        const userObj = await userInfo(token);
+        setUser(userObj);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
     getInfo();
-  }, []);
+  }, [token]);
 
   const logout = () => {
     setToken("");
